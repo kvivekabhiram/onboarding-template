@@ -1,0 +1,17 @@
+steps:
+
+  - label: ":python run tests"
+    plugins:
+      - docker#v3.8.0:
+          image: python:3.8
+    command:
+      - "python --version"
+      - "python -m pip install -r requirements.txt"
+      - "make test"
+
+  - wait
+
+  - label: "Building DEFAULT image"
+    plugins:
+      - ssh://git@code.hq.twilio.com/twilio/docker-buildkite-plugin.git#${TWILIO_DOCKER_PLUGIN_VERSION}:
+          action: build_and_publish
